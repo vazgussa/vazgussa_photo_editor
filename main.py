@@ -1,9 +1,11 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 from PIL import ImageTk, Image, ImageFilter, ImageEnhance, ImageOps
+import webbrowser
 
 class PhotoEditor:
     def __init__(self, master):
+        #Создание окна программы
         self.master = master
         self.master.title("Редактор фотографий")
         self.master.state('zoomed')
@@ -14,16 +16,14 @@ class PhotoEditor:
         self.mirror_image = PhotoImage(file='Assets/mirror.png')
         self.uptodown_image = PhotoImage(file='Assets/up-and-down.png')
         self.cropp_image = PhotoImage(file='Assets/crop.png')
-        # Create menu
         menubar = Menu(self.master)
         self.master.config(menu=menubar)
-
-        # Create file menu
         file_menu = Menu(menubar, tearoff=0)
         file_menu.add_command(label="Открыть", command=self.open_image)
         file_menu.add_command(label="Сохранить", command=self.save_image)
         file_menu.add_command(label="Сбросить изменения", command=self.reset_image)
         file_menu.add_separator()
+        file_menu.add_command(label="View GitHub", command=self.github)
         file_menu.add_command(label="Выйти", command=self.master.quit)
         menubar.add_cascade(label="Файл", menu=file_menu)
 
@@ -38,33 +38,35 @@ class PhotoEditor:
         filters_menu.add_command(label="Clarendon", command=self.clarendon_filter)
         filters_menu.add_command(label="Gingham", command=self.gingham_filter)
         filters_menu.add_command(label="Lark", command=self.lark_filter)
+        filters_menu.add_command(label="Juno", command=self.juno_filter)
+        filters_menu.add_command(label="Rise", command=self.rise_filter)
+        filters_menu.add_command(label="Valencia", command=self.valencia_filter)
+        filters_menu.add_command(label="1977", command=self.nineteen_seventy_seven_filter)
+        filters_menu.add_command(label="Nashville", command=self.nashville_filter)
+        filters_menu.add_command(label="X-Pro II", command=self.x_pro_ii_filter)
+        filters_menu.add_command(label="Hudson", command=self.hudson_filter)
+        filters_menu.add_command(label='Hefe', command=self.hefe_filter)
         filters_menu.add_separator()
         filters_menu.add_command(label='Сбросить фильтры', command=self.reset_image)
         menubar.add_cascade(label="Фильтры", menu=filters_menu)
 
-        # Create canvas for displaying image
-        self.canvas = Canvas(self.master, width=1920, height=800)
+        self.canvas = Canvas(self.master, width=500, height=500)
         self.canvas.pack(side=TOP, fill=BOTH, expand=YES, anchor=N)
-
-        # Create frame for buttons
         button_frame = Frame(self.master)
         button_frame.pack(side=TOP)
-
-        # Create reset button
         crop_button = Button(button_frame, image=self.cropp_image, command=self.crop_image)
         crop_button.pack(side=LEFT)
-
-        # Create rotate buttons
         rotate_left_button = Button(button_frame, image=self.rotate_left_image, command=self.rotate_left)
         rotate_left_button.pack(side=LEFT)
         rotate_right_button = Button(button_frame, image=self.rotate_right_image, command=self.rotate_right)
         rotate_right_button.pack(side=LEFT)
-
-        # Create flip buttons
         flip_horizontal_button = Button(button_frame, image=self.mirror_image, command=self.flip_horizontal)
         flip_horizontal_button.pack(side=LEFT)
         flip_vertical_button = Button(button_frame, image=self.uptodown_image, command=self.flip_vertical)
         flip_vertical_button.pack(side=LEFT)
+
+    def github(self):
+        webbrowser.open_new_tab('https://github.com/vazgussa/vazgussa_photo_editor/')
 
     def open_image(self):
         file_path = filedialog.askopenfilename()
@@ -186,6 +188,92 @@ class PhotoEditor:
             self.filtered_image = self.filtered_image.filter(ImageFilter.GaussianBlur(radius=1))
             enhancer = ImageEnhance.Color(self.filtered_image)
             self.filtered_image = enhancer.enhance(1.1)
+            self.display_image()
+
+    def juno_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Brightness(self.filtered_image)
+            self.filtered_image = enhancer.enhance(0.9)
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            self.display_image()
+
+    def rise_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(0.8)
+            self.display_image()
+
+    def valencia_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.3)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            self.display_image()
+
+    def nineteen_seventy_seven_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Brightness(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(0.9)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            self.display_image()
+
+    def nashville_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Brightness(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            enhancer = ImageEnhance.Sharpness(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            self.display_image()
+
+    def x_pro_ii_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            self.filtered_image = ImageOps.colorize(self.filtered_image.convert('L'), "#ffcc00", "#333333")
+            self.filtered_image = self.filtered_image.filter(ImageFilter.SMOOTH)
+            self.filtered_image = Image.blend(self.filtered_image, self.filtered_image.convert('RGB'), 0.5)
+
+    def hudson_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(0.9)
+            enhancer = ImageEnhance.Brightness(self.filtered_image)
+            self.filtered_image = enhancer.enhance(0.9)
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            self.display_image()
+
+    def hefe_filter(self):
+        if self.image:
+            self.filtered_image = self.image
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.2)
+            enhancer = ImageEnhance.Color(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            enhancer = ImageEnhance.Brightness(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.1)
+            enhancer = ImageEnhance.Contrast(self.filtered_image)
+            self.filtered_image = enhancer.enhance(1.5)
             self.display_image()
 
     def edge_enhance_image(self):
